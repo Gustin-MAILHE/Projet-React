@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, Text, TouchableOpacity, Dimensions, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { modes } from "../../constants/chimpTest";
 import { useChimpTest } from "../../hooks/useChimpTest";
 import LivesDisplay from "./livesDisplay";
-import GridIcon from "./gridIcon";
 import Cell from "./cell";
 import { chimpTestStyles as styles } from "./chimpTestStyles";
 
 const { width } = Dimensions.get("window");
+const GRID_SIZE = 5;
 
 export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: number, mode: "easy" | "hard") => void })
 {
@@ -29,12 +29,12 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
     } = useChimpTest();
 
     const cfg = modes[mode];
-    const fadeAnim = React.useRef(new Animated.Value(0)).current;
-    const shakeAnim = React.useRef(new Animated.Value(0)).current;
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const shakeAnim = useRef(new Animated.Value(0)).current;
 
     const padding = 24;
     const gap = 6;
-    const cellSize = (width - padding * 2 - gap * (5 - 1)) / 5;
+    const cellSize = (width - padding * 2 - gap * (GRID_SIZE - 1)) / GRID_SIZE;
 
     const triggerShake = () => {
         shakeAnim.setValue(0);
@@ -83,7 +83,6 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.centered}>
-                    <GridIcon />
                     <Text style={styles.title}>Chimp Test</Text>
                     <Text style={styles.subtitle}>
                         Mémorisez les nombres, puis touchez-les dans le bon ordre.
@@ -118,13 +117,13 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
         );
     }
 
-    if (phase === "result") {
+    if (phase === "result")
+    {
         return (
             <SafeAreaView style={styles.container}>
                 <Animated.View style={[styles.centered, { opacity: fadeAnim }]}>
-                    <GridIcon />
                     <View style={[styles.modePill, { backgroundColor: cfg.badgeColor }]}>
-                        <Text style={styles.modePillText}>{cfg.label} mode</Text>
+                        <Text style={styles.modePillText}>Mode {cfg.label}</Text>
                     </View>
                     <Text style={styles.label}>Score</Text>
                     <Text style={styles.scoreNumber}>{score}</Text>
@@ -155,7 +154,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
             </Animated.View>
 
             <View style={[styles.grid, { gap }]}>
-                {Array.from({ length: 25 }, (_, i) => (
+                {Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, i) => (
                     <Cell
                         key={i}
                         cell={cells.find(c => c.id === i)}
