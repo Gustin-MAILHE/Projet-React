@@ -9,6 +9,7 @@ import Cell from "./cell";
 import { chimpTestStyles as styles } from "./chimpTestStyles";
 import GameStatsModule from "../moduleGraphe/gameStatsModule";
 import myReferenceData from "../../assets/chimpTest/referenceScores.json";
+import fakePlayers from "../../assets/chimpTest/fakePlayers.json";
 
 const GRID_SIZE = 5;
 
@@ -133,6 +134,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                         playerName: "Toi",
                         storageKey: "chimp_scores_player1",
                         referenceData: myReferenceData,
+                        fakePlayers: fakePlayers,
                     }}
                     onPlayAgain={handleTryAgain}
                     onSaveScore={onSaveScore}

@@ -29,8 +29,62 @@ function buildDistribution(scores: number[])
         };
     });
     return {
-        buckets, min, bucketSize
+        buckets,
+        min,
+        bucketSize
     };
+}
+
+function interpolateY(points: { x: number; y: number }[], targetX: number): number
+{
+    if (points.length === 0) return PAD_TOP;
+    if (targetX <= points[0].x) return points[0].y;
+    if (targetX >= points[points.length - 1].x) return points[points.length - 1].y;
+
+    for (let i = 1; i < points.length; i++)
+    {
+        const p0 = points[i - 1];
+        const p1 = points[i];
+
+        if (targetX >= p0.x && targetX <= p1.x)
+        {
+            const cpX = (p0.x + p1.x) / 2;
+            let lo = 0, hi = 1;
+
+            for (let iter = 0; iter < 50; iter++)
+            {
+                const mid = (lo + hi) / 2;
+                const tm = 1 - mid;
+
+                const xMid =
+                    p0.x * tm * tm * tm +
+                    3 * cpX * tm * tm * mid +
+                    3 * cpX * tm * mid * mid +
+                    p1.x * mid * mid * mid;
+
+                if (xMid < targetX)
+                {
+                    lo = mid;
+                }
+                else
+                {
+                    hi = mid;
+                }
+            }
+
+            const t = (lo + hi) / 2;
+            const tm = 1 - t;
+
+            const yInterp =
+                p0.y * tm * tm * tm +
+                3 * p0.y * tm * tm * t +
+                3 * p1.y * tm * t * t +
+                p1.y * t * t * t;
+
+            return yInterp;
+        }
+    }
+    return points[points.length - 1].y;
 }
 
 interface Props
@@ -44,7 +98,9 @@ export default function ScoreGraph({ myScore, mode, referenceData }: Props)
 {
     const scores = referenceData[mode];
     const {
-        buckets, min, bucketSize
+        buckets,
+        min,
+        bucketSize
     } = buildDistribution(scores);
 
     const average = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
@@ -76,14 +132,11 @@ export default function ScoreGraph({ myScore, mode, referenceData }: Props)
     const areaD = pathD + ` L ${points[points.length - 1].x} ${PAD_TOP + plotH}` + ` L ${points[0].x} ${PAD_TOP + plotH} Z`;
 
     const myX = xForScore(myScore);
-    const myBucketIdx = Math.max(0, Math.min(Math.floor((myScore - min) / bucketSize), points.length - 1));
-    const myY = points[myBucketIdx]?.y ?? PAD_TOP;
+    const myY = interpolateY(points, myX);
     const avgX = xForScore(average);
 
     return (
         <View style={s.graphCard}>
-            <Text style={s.graphTitle}> Graphe </Text>
-
             <Svg width={GRAPH_WIDTH} height={GRAPH_HEIGHT}>
                 <Defs>
                     <LinearGradient id="area" x1="0" y1="0" x2="0" y2="1">
@@ -115,8 +168,10 @@ export default function ScoreGraph({ myScore, mode, referenceData }: Props)
 
                 <Line x1={myX} y1={PAD_TOP} x2={myX} y2={PAD_TOP + plotH}
                       stroke="#f39c12" strokeWidth="1.5" strokeDasharray="4,3" />
-                <Circle cx={myX} cy={myY} r="5" fill="#f39c12" />
+
                 <Circle cx={myX} cy={myY} r="9" fill="rgba(243,156,18,0.2)" />
+                <Circle cx={myX} cy={myY} r="5" fill="#f39c12" />
+
                 <SvgText
                     x={myX + (myX > GRAPH_WIDTH - 60 ? -8 : 8)}
                     y={myY - 10}
@@ -124,6 +179,23 @@ export default function ScoreGraph({ myScore, mode, referenceData }: Props)
                     textAnchor={myX > GRAPH_WIDTH - 60 ? "end" : "start"}>
                 </SvgText>
             </Svg>
+
+            <View style={s.statsRow}>
+                <View style={s.statBox}>
+                    <Text style={s.statValue}>{percentile}%</Text>
+                    <Text style={s.statLabel}>meilleur que</Text>
+                </View>
+                <View style={s.statDivider} />
+                <View style={s.statBox}>
+                    <Text style={s.statValue}>{average}</Text>
+                    <Text style={s.statLabel}>moyenne</Text>
+                </View>
+                <View style={s.statDivider} />
+                <View style={s.statBox}>
+                    <Text style={s.statValue}>{myScore}</Text>
+                    <Text style={s.statLabel}>ton score</Text>
+                </View>
+            </View>
         </View>
     );
 }

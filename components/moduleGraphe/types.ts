@@ -4,12 +4,21 @@ export interface ReferenceData
     hard: number[];
 }
 
+export interface FakePlayer
+{
+    id: string;
+    name: string;
+    bestEasy: number;
+    bestHard: number;
+}
+
 export interface GameStatsConfig
 {
     playerId: string;
     playerName: string;
     storageKey: string;
     referenceData: ReferenceData;
+    fakePlayers?: FakePlayer[];
 }
 
 export interface ScoreEntry

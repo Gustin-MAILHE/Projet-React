@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect } from "react";
-import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry } from "../components/moduleGraphe/types";
+import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, FakePlayer } from "../components/moduleGraphe/types";
 
 export function useScores(config: GameStatsConfig)
 {
@@ -53,22 +53,37 @@ export function useScores(config: GameStatsConfig)
         else
         {
             updatedPlayers = [...data.players,
-            {
-                id: config.playerId,
-                name: config.playerName,
-                scores: [entry],
-                bestEasy: mode === "easy" ? score : 0,
-                bestHard: mode === "hard" ? score : 0,
-            }];
+                {
+                    id: config.playerId,
+                    name: config.playerName,
+                    scores: [entry],
+                    bestEasy: mode === "easy" ? score : 0,
+                    bestHard: mode === "hard" ? score : 0,
+                }
+            ];
         }
 
         await persist({ players: updatedPlayers });
     };
 
-    const getLeaderboard = (mode: "easy" | "hard"): LeaderboardEntry[] => data.players
-            .map(p => ({ id: p.id, name: p.name, best: mode === "easy" ? p.bestEasy : p.bestHard })).filter(p =>
-            p.best > 0).sort((a, b) => b.best - a.best);
+    const getLeaderboard = (mode: "easy" | "hard"): LeaderboardEntry[] => {
+        const realEntries: LeaderboardEntry[] = data.players
+            .map(p => ({ id: p.id,name: p.name, best: mode === "easy" ? p.bestEasy : p.bestHard }))
+            .filter(p => p.best > 0);
 
+        const realIds = new Set(realEntries.map(p => p.id));
+
+        const fakeEntries: LeaderboardEntry[] = (config.fakePlayers ?? [])
+            .filter((fp: FakePlayer) => !realIds.has(fp.id))
+            .map((fp: FakePlayer) => ({
+                id: fp.id,
+                name: fp.name,
+                best: mode === "easy" ? fp.bestEasy : fp.bestHard
+            }))
+            .filter(p => p.best > 0);
+
+        return [...realEntries, ...fakeEntries].sort((a, b) => b.best - a.best);
+    };
 
     const getMyRank = (mode: "easy" | "hard") => {
         const idx = getLeaderboard(mode).findIndex(p => p.id === config.playerId);
