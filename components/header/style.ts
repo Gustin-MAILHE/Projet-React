@@ -3,24 +3,18 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     main: {
-        width: '100%',
-        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-
         backgroundColor: '#0000',
-
         position: 'absolute',
-
         zIndex: 1,
-
-        padding: '1em',
+        padding: 16,
+        left: 0,
+        right: 0,
     },
-
     text: {
         ...Text.all,
         color: Colors.textContrast,
     },
-
-})
+});
