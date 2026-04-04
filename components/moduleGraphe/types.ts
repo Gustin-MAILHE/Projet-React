@@ -48,3 +48,10 @@ export interface LeaderboardEntry
     name: string;
     best: number;
 }
+
+export interface PersonalEntry
+{
+    score: number;
+    date: string;
+    rank?: number;
+}

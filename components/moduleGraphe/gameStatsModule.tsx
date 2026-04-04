@@ -19,7 +19,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
 {
     const [mode, setMode] = useState<"easy" | "hard">(initialMode);
     const [saved, setSaved] = useState(false);
-    const { saveScore, getLeaderboard, getMyRank, loaded } = useScores(config);
+    const { saveScore, getLeaderboard, getMyRank, getMyHistory, loaded } = useScores(config);
 
     const handleSave = async () => {
         await saveScore(score, initialMode);
@@ -50,6 +50,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
 
             {saved && loaded && (
                 <>
+                    {/* Mode switcher (easy / hard) */}
                     <View style={s.switchRow}>
                         {(["easy", "hard"] as const).map(m => (
                             <TouchableOpacity
@@ -64,10 +65,15 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
                         ))}
                     </View>
 
-                    <ScoreGraph myScore={score} mode={mode} referenceData={config.referenceData} />
+                    <ScoreGraph
+                        myScore={score}
+                        mode={mode}
+                        referenceData={config.referenceData}
+                    />
 
                     <Podium
                         leaderboard={getLeaderboard(mode)}
+                        personalHistory={getMyHistory(mode)}
                         currentPlayerId={config.playerId}
                         myRank={getMyRank(mode)}
                         myScore={score}

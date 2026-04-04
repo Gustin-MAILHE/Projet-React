@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect } from "react";
-import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, FakePlayer } from "../components/moduleGraphe/types";
+import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, PersonalEntry, FakePlayer } from "../components/moduleGraphe/types";
 
 export function useScores(config: GameStatsConfig)
 {
@@ -90,11 +90,22 @@ export function useScores(config: GameStatsConfig)
         return idx === -1 ? null : idx + 1;
     };
 
+    const getMyHistory = (mode: "easy" | "hard"): PersonalEntry[] => {
+        const me = data.players.find(p => p.id === config.playerId);
+        if (!me) return [];
+
+        return me.scores
+            .filter(s => s.mode === mode)
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .map(s => ({ score: s.score, date: s.date }));
+    };
+
     return {
         data,
         loaded,
         saveScore,
         getLeaderboard,
-        getMyRank
+        getMyRank,
+        getMyHistory,
     };
 }

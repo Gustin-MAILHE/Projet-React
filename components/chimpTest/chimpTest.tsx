@@ -130,9 +130,9 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                     score={score}
                     mode={mode}
                     config={{
-                        playerId: "player-1",
+                        playerId: "playerYourself",
                         playerName: "Toi",
-                        storageKey: "chimp_scores_player1",
+                        storageKey: "chimp_scores_player",
                         referenceData: myReferenceData,
                         fakePlayers: fakePlayers,
                     }}
