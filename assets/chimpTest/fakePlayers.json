@@ -1,7 +1,7 @@
 [
-  { "id": "bot-mathis",   "name": "Mathis",   "bestEasy": 18, "bestHard": 12 },
+  { "id": "bot-mathis",   "name": "Mathis",   "bestEasy": 28, "bestHard": 14 },
   { "id": "bot-gustin",   "name": "Gustin",   "bestEasy": 19, "bestHard": 13 },
-  { "id": "bot-pablo",   "name": "Pablo",   "bestEasy": 28, "bestHard": 15 },
+  { "id": "bot-pablo",   "name": "Pablo",   "bestEasy": 18, "bestHard": 12 },
   { "id": "bot-maxence",   "name": "Maxence",   "bestEasy": 18, "bestHard": 11 },
   { "id": "bot-isabelle",   "name": "Isabelle",   "bestEasy": 4, "bestHard": 4 },
   { "id": "bot-lizzy",   "name": "Lizzy",   "bestEasy": 18, "bestHard": 12 },
