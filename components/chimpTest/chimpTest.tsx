@@ -34,8 +34,8 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
 
     const padding = 24;
     const gap = 6;
-    // const cellSize = (width - padding * 2 - gap * (GRID_SIZE - 1)) / GRID_SIZE;
-    const cellSize = (width - padding * 2 - gap * (GRID_SIZE - 1) - 6 * GRID_SIZE) / GRID_SIZE;
+    const cellSize = (width - padding * 2 - gap * (GRID_SIZE - 1)) / GRID_SIZE;
+    const gridSize = cellSize * GRID_SIZE + gap * (GRID_SIZE - 1)
 
     const triggerShake = () => {
         shakeAnim.setValue(0);
@@ -154,23 +154,24 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                 {phase === "recall" && <Text style={styles.phaseHint}>Touchez : {nextExpected}</Text>}
             </Animated.View>
 
-            <View style={[styles.grid, { gap }]}>
-                {Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, i) => (
-                    <Cell
-                        key={i}
-                        cell={cells.find(c => c.id === i)}
-                        phase={phase === "memorize" ? "memorize" : "recall"}
-                        isTapped={tappedIds.has(i)}
-                        isWrong={wrongId === i}
-                        cellSize={cellSize}
-                        // onPress={(cell) => {
-                        //     handleCellPress(cell);
-                        //     if (wrongId === cell.id) triggerShake();
-                        // }}
-
-                        onPress={(cell) => handleCellPress(cell, triggerShake)}
-                    />
-                ))}
+            <View style={{ width: gridSize, height: gridSize, position: "relative" }}>
+                {cells.map((cell) => {
+                    const col = cell.id % GRID_SIZE;
+                    const row = Math.floor(cell.id / GRID_SIZE);
+                    return (
+                        <Cell
+                            key={`${level}-${cell.id}`}
+                            cell={cell}
+                            phase={phase === "memorize" ? "memorize" : "recall"}
+                            isTapped={tappedIds.has(cell.id)}
+                            isWrong={wrongId === cell.id}
+                            cellSize={cellSize}
+                            left={col * (cellSize + gap)}
+                            top={row * (cellSize + gap)}
+                            onPress={(c) => handleCellPress(c, triggerShake)}
+                        />
+                    );
+                })}
             </View>
         </SafeAreaView>
     );

@@ -15,7 +15,7 @@ export const modes: Record<GameMode, ModeConfig> = {
     {
         label: "Facile",
         lives: 3,
-        memorizeMs: 2000,
+        memorizeMs: 5000,
         accentColor: "#27ae60",
         badgeColor: "#1e8449",
         description: "3 vies - 2 sec pour mémoriser",

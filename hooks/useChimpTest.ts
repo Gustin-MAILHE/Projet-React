@@ -1,6 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { modes, Cell, grid_size } from "../constants/chimpTest";
-
 
 type Phase = "modeSelect" | "memorize" | "recall" | "result";
 type GameMode = "easy" | "hard";
@@ -42,15 +41,32 @@ export function useChimpTest()
     const [tappedIds, setTappedIds] = useState<Set<number>>(new Set());
     const [wrongId, setWrongId] = useState<number | null>(null);
     const [score, setScore] = useState(0);
+    const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+    const clearAllTimeouts = () => {
+        timeoutsRef.current.forEach(clearTimeout);
+        timeoutsRef.current = [];
+    };
+
+    const addTimeout = (fn: () => void, ms: number) => {
+        const id = setTimeout(fn, ms);
+        timeoutsRef.current.push(id);
+        return id;
+    };
 
     const startRound = useCallback((lvl: number, currentMode: GameMode) => {
-        const newCells = generateRound(lvl);
-        setCells(newCells);
-        setNextExpected(1);
+        clearAllTimeouts();
+        setCells([]);
         setTappedIds(new Set());
         setWrongId(null);
-        setPhase("memorize");
-        setTimeout(() => setPhase("recall"), modes[currentMode].memorizeMs);
+        setNextExpected(1);
+
+        addTimeout(() => {
+            const newCells = generateRound(lvl);
+            setCells(newCells);
+            setPhase("memorize");
+            addTimeout(() => setPhase("recall"), modes[currentMode].memorizeMs);
+        }, 100);
     }, []);
 
     const handleSelectMode = (selectedMode: GameMode) => {
@@ -61,7 +77,10 @@ export function useChimpTest()
         startRound(4, selectedMode);
     };
 
-    const handleTryAgain = () => setPhase("modeSelect");
+    const handleTryAgain = () => {
+        clearAllTimeouts();
+        setPhase("modeSelect");
+    };
 
     const handleCellPress = (cell: Cell, onWrong?: () => void) => {
         if (phase !== "recall")
@@ -81,12 +100,10 @@ export function useChimpTest()
 
             if (nextExpected === cells.length)
             {
-                // const newScore = level;
-                // setScore(newScore);
                 setScore(prev => prev + level);
                 const nextLevel = level + 1;
                 setLevel(nextLevel);
-                setTimeout(() => startRound(nextLevel, mode), 600);
+                addTimeout(() => startRound(nextLevel, mode), 600);
             }
             else
             {
@@ -103,11 +120,11 @@ export function useChimpTest()
             if (newLives <= 0)
             {
                 setScore(level - 1 < 0 ? 0 : level - 1);
-                setTimeout(() => setPhase("result"), 800);
+                addTimeout(() => setPhase("result"), 800);
             }
             else
             {
-                setTimeout(() => startRound(level, mode), 900);
+                addTimeout(() => startRound(level, mode), 900);
             }
         }
     };

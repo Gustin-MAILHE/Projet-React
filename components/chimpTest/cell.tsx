@@ -9,37 +9,56 @@ interface Props
     isTapped: boolean;
     isWrong: boolean;
     cellSize: number;
+    left: number;
+    top: number;
     onPress: (cell: CellType) => void;
 }
 
-export default function Cell({ cell, phase, isTapped, isWrong, cellSize, onPress }: Props)
+export default function Cell({ cell, phase, isTapped, isWrong, cellSize, left, top, onPress }: Props)
 {
-    const style: ViewStyle[] = [
+    let bgColor = "transparent";
+    if (cell)
+    {
+        if (isWrong)
         {
-            width: cellSize,
-            height: cellSize,
-            borderRadius: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            margin: 3
-        },
-        cell ? (isWrong ? { backgroundColor: "#e74c3c" }
-                : isTapped ? { backgroundColor: "rgba(255,255,255,0.08)" }
-                    : { backgroundColor: "#3498db" })
-            : { backgroundColor: "transparent" }
-    ];
+            bgColor = "#e74c3c";
+        }
+        else if (isTapped)
+        {
+            bgColor = "rgba(255,255,255,0.08)";
+        }
+        else if (phase === "memorize")
+        {
+            bgColor = "#3498db";
+        }
+        else
+        {
+            bgColor = "#1a5276";
+        }
+    }
 
     return (
         <TouchableOpacity
-            disabled={!cell || isTapped}
+            disabled={!cell || isTapped || isWrong}
             onPress={() => cell && onPress(cell)}
-            style={style}
-            activeOpacity={cell ? 0.7 : 1}
+            activeOpacity={0.7}
+            style={{
+                position: "absolute",
+                left,
+                top,
+                width: cellSize,
+                height: cellSize,
+                borderRadius: 10,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: bgColor,
+            }}
         >
-            {
-                phase === "memorize" && cell &&
-                <Text style={{ color: "#fff", fontWeight: "800", fontSize: 18 }}>{cell.number} </Text>
-            }
+            {phase === "memorize" && cell && (
+                <Text style={{ color: "#fff", fontWeight: "800", fontSize: 18 }}>
+                    {cell.number}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 }
