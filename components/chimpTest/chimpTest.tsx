@@ -7,6 +7,8 @@ import { useChimpTest } from "../../hooks/useChimpTest";
 import LivesDisplay from "./livesDisplay";
 import Cell from "./cell";
 import { chimpTestStyles as styles } from "./chimpTestStyles";
+import GameStatsModule from "../moduleGraphe/gameStatsModule";
+import myReferenceData from "../../assets/chimpTest/referenceScores.json";
 
 const GRID_SIZE = 5;
 
@@ -123,25 +125,18 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
     {
         return (
             <SafeAreaView style={styles.container}>
-                <Animated.View style={[styles.centered, { opacity: fadeAnim }]}>
-                    <View style={[styles.modePill, { backgroundColor: cfg.badgeColor }]}>
-                        <Text style={styles.modePillText}>Mode {cfg.label}</Text>
-                    </View>
-                    <Text style={styles.label}>Score</Text>
-                    <Text style={styles.scoreNumber}>{score}</Text>
-                    <Text style={styles.compareText}>Sauvegardez votre score pour voir votre classement.</Text>
-                    <View style={styles.btnRow}>
-                        <TouchableOpacity
-                            style={styles.btnGold}
-                            onPress={() => onSaveScore?.(score, mode)}
-                        >
-                            <Text style={styles.btnGoldText}>Sauvegarder</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnSecondary} onPress={handleTryAgain}>
-                            <Text style={styles.btnSecondaryText}>Rejouer</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Animated.View>
+                <GameStatsModule
+                    score={score}
+                    mode={mode}
+                    config={{
+                        playerId: "player-1",
+                        playerName: "Toi",
+                        storageKey: "chimp_scores_player1",
+                        referenceData: myReferenceData,
+                    }}
+                    onPlayAgain={handleTryAgain}
+                    onSaveScore={onSaveScore}
+                />
             </SafeAreaView>
         );
     }
