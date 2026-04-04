@@ -3,12 +3,12 @@ import { StyleSheet, Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 export const chimpTestStyles = StyleSheet.create({
-    container: 
+    container:
     {
         flex: 1,
         backgroundColor: "#1a1a2e",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
 
     centered:

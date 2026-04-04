@@ -31,11 +31,13 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
     const cfg = modes[mode];
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const shakeAnim = useRef(new Animated.Value(0)).current;
+    const { width, height } = Dimensions.get("window");
 
     const padding = 24;
     const gap = 6;
-    const cellSize = (width - padding * 2 - gap * (GRID_SIZE - 1)) / GRID_SIZE;
-    const gridSize = cellSize * GRID_SIZE + gap * (GRID_SIZE - 1)
+    const availableSize = Math.min(width - padding * 2, height * 0.6);
+    const cellSize = (availableSize - gap * (GRID_SIZE - 1)) / GRID_SIZE;
+    const gridSize = cellSize * GRID_SIZE + gap * (GRID_SIZE - 1);
 
     const triggerShake = () => {
         shakeAnim.setValue(0);
@@ -154,7 +156,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                 {phase === "recall" && <Text style={styles.phaseHint}>Touchez : {nextExpected}</Text>}
             </Animated.View>
 
-            <View style={{ width: gridSize, height: gridSize, position: "relative" }}>
+            <View style={{ width: gridSize, height: gridSize, position: "relative", alignSelf: "center" }}>
                 {cells.map((cell) => {
                     const col = cell.id % GRID_SIZE;
                     const row = Math.floor(cell.id / GRID_SIZE);
