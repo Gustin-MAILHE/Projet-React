@@ -28,8 +28,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
     };
 
     return (
-        <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false}>
-
+        <ScrollView contentContainerStyle={s.scroll} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
             <Text style={s.scoreLabel}>Score</Text>
             <Text style={s.scoreNumber}>{score}</Text>
 
@@ -50,7 +49,6 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
 
             {saved && loaded && (
                 <>
-                    {/* Mode switcher (easy / hard) */}
                     <View style={s.switchRow}>
                         {(["easy", "hard"] as const).map(m => (
                             <TouchableOpacity

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LeaderboardEntry, PersonalEntry } from "./types";
 import { s } from "./moduleStyle";
+import { sw, sf } from "./responsive";
 
 interface Props
 {
@@ -30,11 +31,11 @@ export default function Podium({ leaderboard, personalHistory, currentPlayerId, 
     const [tab, setTab] = useState<Tab>("global");
     const top3 = leaderboard.slice(0, 3);
     const medals = ["🥇", "🥈", "🥉"];
-    const heights = [100, 75, 60];
+    const heights = [sw(100), sw(75), sw(60)];
     const isInTop3 = myRank !== null && myRank <= 3;
 
-    const bestScore  = personalHistory.length > 0 ? Math.max(...personalHistory.map(e => e.score)) : null;
-    const avgScore   = personalHistory.length > 0
+    const bestScore = personalHistory.length > 0 ? Math.max(...personalHistory.map(e => e.score)) : null;
+    const avgScore = personalHistory.length > 0
         ? Math.round(personalHistory.reduce((sum, e) => sum + e.score, 0) / personalHistory.length)
         : null;
 
@@ -139,7 +140,7 @@ export default function Podium({ leaderboard, personalHistory, currentPlayerId, 
                         </View>
                     )}
 
-                    <View style={[s.list, { marginTop: 12 }]}>
+                    <View style={[s.list, { marginTop: sw(12) }]}>
                         {personalHistory.length === 0 ? (
                             <Text style={s.hint}>Aucune partie enregistrée pour ce mode.</Text>
                         ) : (
@@ -149,7 +150,7 @@ export default function Podium({ leaderboard, personalHistory, currentPlayerId, 
                                     <View key={i} style={[s.listRow, isBest && s.meListRow]}>
                                         <Text style={s.listRank}>#{i + 1}</Text>
 
-                                        <Text style={[s.listName, { fontSize: 12 }]}>
+                                        <Text style={[s.listName, { fontSize: sf(12) }]}>
                                             {formatDate(entry.date)}
                                             {isBest ? "  ⭐" : ""}
                                         </Text>
