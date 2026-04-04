@@ -8,7 +8,6 @@ import LivesDisplay from "./livesDisplay";
 import Cell from "./cell";
 import { chimpTestStyles as styles } from "./chimpTestStyles";
 
-const { width } = Dimensions.get("window");
 const GRID_SIZE = 5;
 
 export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: number, mode: "easy" | "hard") => void })

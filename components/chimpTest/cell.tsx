@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, Text, ViewStyle } from "react-native";
+import { TouchableOpacity, Text} from "react-native";
 import { Cell as CellType } from "../../constants/chimpTest";
 
 interface Props
