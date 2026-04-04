@@ -63,7 +63,7 @@ export function useChimpTest()
 
     const handleTryAgain = () => setPhase("modeSelect");
 
-    const handleCellPress = (cell: Cell) => {
+    const handleCellPress = (cell: Cell, onWrong?: () => void) => {
         if (phase !== "recall")
         {
             return;
@@ -81,8 +81,9 @@ export function useChimpTest()
 
             if (nextExpected === cells.length)
             {
-                const newScore = level;
-                setScore(newScore);
+                // const newScore = level;
+                // setScore(newScore);
+                setScore(prev => prev + level);
                 const nextLevel = level + 1;
                 setLevel(nextLevel);
                 setTimeout(() => startRound(nextLevel, mode), 600);
@@ -95,6 +96,7 @@ export function useChimpTest()
         else
         {
             setWrongId(cell.id);
+            onWrong?.();
             const newLives = lives - 1;
             setLives(newLives);
 
