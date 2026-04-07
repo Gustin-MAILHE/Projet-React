@@ -77,7 +77,7 @@ const SequenceMemory = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>
-        {gameOver ? 'Game Over!' : `Jte baise mathis: ${level}`}
+        {gameOver ? 'Game Over!' : `Niveau: ${level}`}
       </Text>
 
       <View style={styles.grid}>
