@@ -1,4 +1,4 @@
-import { Colors, Text } from "@/assets/js/var";
+import { Colors, Text } from "@/assets/ts/var";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({

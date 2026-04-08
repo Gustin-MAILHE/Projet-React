@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#0f0f1a",
+        backgroundColor: "#1a1a2e",
         gap: 28,
     },
     title: {
@@ -28,18 +28,18 @@ export const styles = StyleSheet.create({
         textAlign: "center",
     },
     button: {
-        backgroundColor: "#2ecc71",
+        backgroundColor: "#35724a",
         paddingVertical: 14,
         paddingHorizontal: 40,
         borderRadius: 10,
     },
     buttonText: {
-        color: "#0a2a14",
+        color: "#ffffff",
         fontSize: 16,
         fontWeight: "600",
     },
     bigButton: {
-        backgroundColor: "#e74c3c",
+        backgroundColor: "#932c21",
         paddingVertical: 20,
         paddingHorizontal: 60,
         borderRadius: 12,

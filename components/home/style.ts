@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Text } from "@/assets/js/var";
+import { Colors, Text } from "@/assets/ts/var";
 
 export const styles = StyleSheet.create({
     body: {
