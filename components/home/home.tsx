@@ -3,12 +3,9 @@ import React from "react";
 import { useRouter } from "expo-router";
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./style";
-import { useNavigation } from "@react-navigation/native";
-
 
 export const Home = () => {
     const router = useRouter();
-    const navigation = useNavigation();
 
     return (
         <ScrollView style={styles.body}>
