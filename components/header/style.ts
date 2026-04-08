@@ -1,4 +1,4 @@
-import { Colors, Text } from "@/assets/js/var";
+import { Colors, Text } from "@/assets/ts/var";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#0000',
         position: 'absolute',
+        top: 0,
         zIndex: 1,
         padding: 16,
         left: 0,

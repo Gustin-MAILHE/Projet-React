@@ -3,10 +3,12 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { LightCircle } from "@/components/reactionTime/LightCircle";
 import { useReactionGame } from "@/hooks/useReactionGame";
-import { styles } from "@/app/styles";
 import GameStatsModule from "../moduleGraphe/gameStatsModule";
 import myReferenceData from "../../assets/reactionTime/referenceScore.json";
 import fakePlayers from "../../assets/reactionTime/fakePlayers.json";
+import { styles } from "./styles";
+import {Header} from "@/components/header/header";
+import {Footer} from "@/components/footer/footer";
 
 export default function ReactionScreen() {
     const { gameState, reactionTime, startGame, handlePress } = useReactionGame();
@@ -34,7 +36,8 @@ export default function ReactionScreen() {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <Header/>
             <Text style={styles.title}>Reaction Time</Text>
 
             <LightCircle gameState={gameState} reactionTime={reactionTime} />
@@ -50,6 +53,15 @@ export default function ReactionScreen() {
                     <Text style={styles.bigButtonText}>RÉAGIR !</Text>
                 </Pressable>
             )}
-        </View>
+
+            {reactionTime !== null && bestScore !== null && (
+                <ResultDisplay
+                    reactionTime={reactionTime}
+                    bestScore={bestScore}
+                    totalScores={scores.length}
+                />
+            )}
+            <Footer/>
+        </SafeAreaView>
     );
 }

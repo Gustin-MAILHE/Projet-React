@@ -1,13 +1,20 @@
-import { View, Text } from "react-native";
+import {View, Text, Image, TouchableOpacity} from "react-native";
 import { styles } from "./style";
+import React from "react";
+import {router} from "expo-router";
 
 export const Header = () => {
 
-
     return (
         <View style={ styles.main }>
-            <Text style={styles.text}>le logo</Text>
-            <Text style={styles.text}>Un menu</Text>
+            <TouchableOpacity
+                onPress={ ()=> router.push("/") }
+            >
+                <Image
+                    style={{ width: 80, height: 80, marginLeft: 32 }}
+                    source={require("@/assets/images/logo.png")}
+                />
+            </TouchableOpacity>
         </View>
     )
 }

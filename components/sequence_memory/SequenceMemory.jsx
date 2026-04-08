@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Header } from "@/components/header/header";
+import { Footer } from "@/components/footer/footer";
 
 const GRID_SIZE = 9;
 
@@ -76,6 +78,7 @@ const SequenceMemoryGame = () => {
 
   return (
     <View style={styles.container}>
+      <Header/>
       <Text style={styles.headerText}>
         {gameOver ? 'Game Over!' : `Level: ${level}`}
       </Text>
@@ -103,6 +106,7 @@ const SequenceMemoryGame = () => {
           </Text>
         </TouchableOpacity>
       )}
+      <Footer/>
     </View>
   );
 };
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#121212',
+    backgroundColor: '#1a1a2e',
   },
   headerText: {
     fontSize: 32,
@@ -137,10 +141,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#35724a',
     paddingHorizontal: 30,
     paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   buttonText: {
     color: '#ffffff',

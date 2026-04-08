@@ -11,6 +11,14 @@ export const Home = () => {
         <ScrollView style={styles.body}>
             <Text style={styles.bandeau}>BedMark</Text>
 
+            <Text style={styles.accueil}>Bienvenue sur BedMark !</Text>
+            <Text style={styles.accueil1}>
+                Reaction Time, Chimp Test, Colors Picker, Memory Game...
+                4 jeux conçus pour challenger ton cerveau
+                et mesurer tes vraies capacités.
+                Prêt à découvrir jusqu'où tu peux aller ?
+            </Text>
+
             <View style={styles.listJeux}>
                 <CarteJeu
                     titre="Reaction Time"
@@ -22,11 +30,11 @@ export const Home = () => {
                     nom={require("@/assets/images/chimp.png")}
                     onPress={()=> router.push("/games/indexChimp")} />
                 <CarteJeu
-                    titre="Couleur Différente"
+                    titre="Colors Picker"
                     nom={require("@/assets/images/pipette.png")}
                     onPress={()=> router.push("/games/indexColors")}  />
                 <CarteJeu
-                    titre="Séquence Mémorisé"
+                    titre="Memory Game"
                     nom={require("@/assets/images/sequence_memory.png")}
                     onPress={()=> router.push("/games/indexSequenceMemo")}  />
             </View>

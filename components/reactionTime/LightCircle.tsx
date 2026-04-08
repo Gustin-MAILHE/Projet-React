@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { styles } from "@/app/styles";
+import { styles } from "@/components/reactionTime/styles";
 import { GameState } from "@/hooks/useReactionGame";
 
 interface Props {
@@ -13,9 +13,9 @@ interface Props {
  */
 export function LightCircle({ gameState, reactionTime }: Props) {
     function getColor() {
-        if (gameState === "go")      return "#2ecc71";
-        if (gameState === "waiting") return "#e74c3c";
-        return "#555";
+        if (gameState === "go")      return "#35724a";
+        if (gameState === "waiting") return "#932c21";
+        return "#505050";
     }
 
     function getText() {
