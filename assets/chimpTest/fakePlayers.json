@@ -1,0 +1,16 @@
+[
+  { "id": "bot-mathis",   "name": "Mathis",   "bestEasy": 28, "bestHard": 14 },
+  { "id": "bot-gustin",   "name": "Gustin",   "bestEasy": 19, "bestHard": 13 },
+  { "id": "bot-pablo",   "name": "Pablo",   "bestEasy": 18, "bestHard": 12 },
+  { "id": "bot-maxence",   "name": "Maxence",   "bestEasy": 18, "bestHard": 11 },
+  { "id": "bot-isabelle",   "name": "Isabelle",   "bestEasy": 4, "bestHard": 4 },
+  { "id": "bot-lizzy",   "name": "Lizzy",   "bestEasy": 18, "bestHard": 12 },
+  { "id": "bot-leon",   "name": "Leon",   "bestEasy": 18, "bestHard": 18 },
+  { "id": "bot-grace",   "name": "Grace",   "bestEasy": 18, "bestHard": 10 },
+  { "id": "bot-jack",   "name": "Jack",   "bestEasy": 14, "bestHard": 9  },
+  { "id": "bot-akcyl",  "name": "Akcyl",  "bestEasy": 11, "bestHard": 7  },
+  { "id": "bot-lou",     "name": "Lou",     "bestEasy": 9,  "bestHard": 6  },
+  { "id": "bot-oriane", "name": "Oriane", "bestEasy": 7,  "bestHard": 5  },
+  { "id": "bot-klee",    "name": "Klee",    "bestEasy": 6,  "bestHard": 4  },
+  { "id": "bot-jackob",    "name": "Jackob",    "bestEasy": 5,  "bestHard": 3  }
+]
