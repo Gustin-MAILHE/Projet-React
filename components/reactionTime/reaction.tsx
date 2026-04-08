@@ -1,6 +1,6 @@
 // app/reaction.tsx
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, SafeAreaView } from "react-native";
 import { LightCircle } from "@/components/reactionTime/LightCircle";
 import { useReactionGame } from "@/hooks/useReactionGame";
 import GameStatsModule from "../moduleGraphe/gameStatsModule";
@@ -26,7 +26,7 @@ export default function ReactionScreen() {
                         playerName: "Toi",
                         storageKey: "reaction_scores_player",
                         referenceData: myReferenceData,
-                        fakePlayers,
+                        fakePlayers: fakePlayers,
                         lowerIsBetter: true,
                     }}
                     onPlayAgain={startGame}
@@ -52,14 +52,6 @@ export default function ReactionScreen() {
                 <Pressable style={styles.bigButton} onPress={handlePress}>
                     <Text style={styles.bigButtonText}>RÉAGIR !</Text>
                 </Pressable>
-            )}
-
-            {reactionTime !== null && bestScore !== null && (
-                <ResultDisplay
-                    reactionTime={reactionTime}
-                    bestScore={bestScore}
-                    totalScores={scores.length}
-                />
             )}
             <Footer/>
         </SafeAreaView>
