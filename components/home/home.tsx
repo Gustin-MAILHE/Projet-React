@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./style";
 
-export const Home = () => {
+const Home = () => {
     const router = useRouter();
 
     return (
@@ -25,7 +25,9 @@ export const Home = () => {
                     nom={require("@/assets/images/pipette.png")} onPress={undefined}                />
                 <CarteJeu
                     titre="Séquence Mémorisé"
-                    nom={require("@/assets/images/sequence_memory.png")} onPress={undefined}                />
+                    nom={require("@/assets/images/sequence_memory.png")}
+                    onPress={() => router.push("../components/sequence_memory/SequenceMemory")}                
+                    />
             </View>
         </ScrollView>
     );
@@ -45,3 +47,5 @@ const CarteJeu = ({ titre, nom, onPress }) => (
         />
     </TouchableOpacity>
 );
+
+export default Home;
