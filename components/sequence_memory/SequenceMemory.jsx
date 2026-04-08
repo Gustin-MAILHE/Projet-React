@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 const GRID_SIZE = 9; // 3x3 grid
 
-const SequenceMemory = () => {
+const SequenceMemoryGame = () => {
   const [sequence, setSequence] = useState([]);
   const [userSequence, setUserSequence] = useState([]);
   const [activeSquare, setActiveSquare] = useState(null);
@@ -11,7 +11,15 @@ const SequenceMemory = () => {
   const [gameOver, setGameOver] = useState(false);
   const [level, setLevel] = useState(0);
 
-  // Trigger the sequence playback whenever the sequence changes
+  // Responsive layout calculations
+  const { width } = useWindowDimensions();
+  const GAME_MAX_WIDTH = 450; // Cap width for PC monitors
+  const effectiveWidth = Math.min(width, GAME_MAX_WIDTH);
+  
+  const gridPadding = 40;
+  const squareMargin = 5;
+  const squareSize = (effectiveWidth - gridPadding - squareMargin * 6) / 3;
+
   useEffect(() => {
     if (sequence.length > 0) {
       playSequence();
@@ -28,27 +36,22 @@ const SequenceMemory = () => {
   const playSequence = async () => {
     setIsPlaying(true);
     
-    // Brief pause before showing the sequence
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     for (let i = 0; i < sequence.length; i++) {
-      // Light up the square
       setActiveSquare(sequence[i]);
-      await new Promise((resolve) => setTimeout(resolve, 400)); // Flash duration
+      await new Promise((resolve) => setTimeout(resolve, 400));
       
-      // Turn it off
       setActiveSquare(null);
-      await new Promise((resolve) => setTimeout(resolve, 200)); // Gap between flashes
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
     
     setIsPlaying(false);
   };
 
   const handlePress = (index) => {
-    // Prevent user from pressing while sequence is playing or game is over
     if (isPlaying || gameOver || level === 0) return;
 
-    // Flash the square briefly for user feedback
     setActiveSquare(index);
     setTimeout(() => setActiveSquare(null), 150);
 
@@ -57,30 +60,29 @@ const SequenceMemory = () => {
 
     const currentStep = newUserSequence.length - 1;
 
-    // Check if the user made a mistake
     if (newUserSequence[currentStep] !== sequence[currentStep]) {
       setGameOver(true);
       return;
     }
 
-    // Check if the user successfully completed the current level
     if (newUserSequence.length === sequence.length) {
-      setIsPlaying(true); // Temporarily lock input
+      setIsPlaying(true);
       setTimeout(() => {
         setLevel((prev) => prev + 1);
         setUserSequence([]);
         setSequence((prev) => [...prev, Math.floor(Math.random() * GRID_SIZE)]);
-      }, 1000); // Wait 1 second before starting the next level
+      }, 1000);
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>
-        {gameOver ? 'Game Over!' : `Niveau: ${level}`}
+        {gameOver ? 'Game Over!' : `Level: ${level}`}
       </Text>
 
-      <View style={styles.grid}>
+      {/* The Game Grid */}
+      <View style={[styles.grid, { width: effectiveWidth - gridPadding }]}>
         {Array.from({ length: GRID_SIZE }).map((_, index) => (
           <TouchableOpacity
             key={index}
@@ -88,29 +90,25 @@ const SequenceMemory = () => {
             onPress={() => handlePress(index)}
             style={[
               styles.square,
+              { width: squareSize, height: squareSize, margin: squareMargin },
               activeSquare === index && styles.squareActive,
-              gameOver && activeSquare === index && styles.squareError // Highlight wrong press in red
+              gameOver && activeSquare === index && styles.squareError
             ]}
           />
         ))}
       </View>
 
+      {/* The Missing Start Button! */}
       {(gameOver || level === 0) && (
         <TouchableOpacity style={styles.button} onPress={startGame}>
           <Text style={styles.buttonText}>
-            {gameOver ? 'Try Again' : 'C COOl'}
+            {gameOver ? 'Try Again' : 'Start Game'}
           </Text>
         </TouchableOpacity>
       )}
     </View>
   );
 };
-
-// Layout calculations for a perfect 3x3 square
-const screenWidth = Dimensions.get('window').width;
-const gridPadding = 40;
-const squareMargin = 5;
-const squareSize = (screenWidth - gridPadding - squareMargin * 6) / 3;
 
 const styles = StyleSheet.create({
   container: {
@@ -128,21 +126,17 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: screenWidth - gridPadding,
     justifyContent: 'center',
   },
   square: {
-    width: squareSize,
-    height: squareSize,
-    margin: squareMargin,
     backgroundColor: '#333333',
     borderRadius: 8,
   },
   squareActive: {
-    backgroundColor: '#4ade80', // Bright green when lit
+    backgroundColor: '#4ade80',
   },
   squareError: {
-    backgroundColor: '#ef4444', // Red if the user clicks the wrong one
+    backgroundColor: '#ef4444',
   },
   button: {
     marginTop: 40,
@@ -158,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SequenceMemory;
+export default SequenceMemoryGame;
