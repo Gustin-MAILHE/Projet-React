@@ -31,8 +31,9 @@ export const styles = StyleSheet.create({
     },
 
     carteJeu: {
-        width: 140,
+        width: 150,
         height: 140,
+        display: 'flex',
         overflow: 'hidden',
         flexDirection: 'column',
         alignItems: 'center',
@@ -51,4 +52,16 @@ export const styles = StyleSheet.create({
         marginTop: 4,
         marginLeft: 4,
     },
+
+    accueil: {
+        display: 'flex',
+        fontFamily: 'Serial',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 180,
+        color: Colors.textContrast,
+        fontSize: 22,
+        paddingHorizontal: 24,
+        textAlign: 'center',
+    }
 });
