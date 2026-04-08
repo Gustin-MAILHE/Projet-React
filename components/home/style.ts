@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
 
     bandeau: {
         display: 'flex',
+        fontFamily: 'Serial',
         justifyContent: 'center',
         alignItems: 'center',
         height: 180,
