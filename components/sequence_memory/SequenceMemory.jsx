@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import GameStatsModule from '../moduleGraphe/gameStatsModule';
+import myReferenceData from "../../assets/chimpTest/referenceScores.json";
+import fakePlayers from "../../assets/chimpTest/fakePlayers.json";
 
 const GRID_SIZE = 9;
 
@@ -103,7 +106,21 @@ const SequenceMemoryGame = () => {
           </Text>
         </TouchableOpacity>
       )}
+      <GameStatsModule
+        score={level}
+        mode={"easy"}
+        config={{
+            playerId: "playerYourself",
+            playerName: "Toi",
+            storageKey: "sequence_scores_player",
+            referenceData: myReferenceData,
+            fakePlayers: fakePlayers,
+        }}
+        onPlayAgain={startGame}
+        onSaveScore={()=> {}}
+      />
     </View>
+    
   );
 };
 

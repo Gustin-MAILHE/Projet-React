@@ -26,7 +26,7 @@ const Home = () => {
                 <CarteJeu
                     titre="Séquence Mémorisé"
                     nom={require("@/assets/images/sequence_memory.png")}
-                    onPress={() => router.push("../components/sequence_memory/SequenceMemory")}                
+                    onPress={() => router.push("/games/indexSequenceMemo")}                
                     />
             </View>
         </ScrollView>
