@@ -10,6 +10,8 @@ import { chimpTestStyles as styles } from "./chimpTestStyles";
 import GameStatsModule from "../moduleGraphe/gameStatsModule";
 import myReferenceData from "../../assets/chimpTest/referenceScores.json";
 import fakePlayers from "../../assets/chimpTest/fakePlayers.json";
+import {Header} from "@/components/header/header";
+import {Footer} from "@/components/footer/footer";
 
 const GRID_SIZE = 5;
 
@@ -87,6 +89,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
     {
         return (
             <SafeAreaView style={styles.container}>
+                <Header/>
                 <View style={styles.centered}>
                     <Text style={styles.title}>Chimp Test</Text>
                     <Text style={styles.subtitle}>
@@ -118,6 +121,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                         })}
                     </View>
                 </View>
+                <Footer/>
             </SafeAreaView>
         );
     }
@@ -126,6 +130,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
     {
         return (
             <SafeAreaView style={styles.container}>
+                <Header/>
                 <GameStatsModule
                     score={score}
                     mode={mode}
@@ -139,12 +144,14 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                     onPlayAgain={handleTryAgain}
                     onSaveScore={onSaveScore}
                 />
+                <Footer/>
             </SafeAreaView>
         );
     }
 
     return (
         <SafeAreaView style={styles.container}>
+            <Header/>
             <Animated.View style={[styles.header, { transform: [{ translateX: shakeAnim }] }]}>
                 <Text style={styles.levelText}>Niveau {level}</Text>
                 <LivesDisplay lives={lives} max={cfg.lives} />
@@ -171,6 +178,7 @@ export default function ChimpTest({ onSaveScore }: { onSaveScore?: (score: numbe
                     );
                 })}
             </View>
+            <Footer/>
         </SafeAreaView>
     );
 }

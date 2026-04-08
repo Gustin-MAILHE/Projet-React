@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Header } from "@/components/header/header";
+import { Footer } from "@/components/footer/footer";
 
 const GRID_SIZE = 9;
 
@@ -76,6 +78,7 @@ const SequenceMemoryGame = () => {
 
   return (
     <View style={styles.container}>
+      <Header/>
       <Text style={styles.headerText}>
         {gameOver ? 'Game Over!' : `Level: ${level}`}
       </Text>
@@ -103,6 +106,7 @@ const SequenceMemoryGame = () => {
           </Text>
         </TouchableOpacity>
       )}
+      <Footer/>
     </View>
   );
 };
