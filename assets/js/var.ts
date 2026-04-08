@@ -1,4 +1,4 @@
-// assets/js/var.js
+// assets/js/var.ts
 export const Colors = {
     primary: '#1B263B',
     secondary: '#8533CC',

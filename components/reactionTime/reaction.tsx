@@ -1,9 +1,9 @@
 // app/reaction.tsx
 import { SafeAreaView, TouchableOpacity, Text } from "react-native";
-import { LightCircle } from "@/components/LightCircle";
-import { ResultDisplay } from "@/components/ResultDisplay";
+import { LightCircle } from "@/components/reactionTime/LightCircle";
+import { ResultDisplay } from "@/components/reactionTime/ResultDisplay";
 import { useReactionGame } from "@/hooks/useReactionGame";
-import { styles } from "./styles";
+import { styles } from "../../app/styles";
 
 export default function ReactionScreen() {
     const { gameState, reactionTime, bestScore, scores, startGame, handlePress } =
