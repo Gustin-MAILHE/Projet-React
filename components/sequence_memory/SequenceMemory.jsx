@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#151525',
+    backgroundColor: '#1a1a2e',
   },
   headerText: {
     fontSize: 32,
@@ -137,10 +137,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#35724a',
     paddingHorizontal: 30,
     paddingVertical: 15,
-    borderRadius: 8,
+    borderRadius: 12,
   },
   buttonText: {
     color: '#ffffff',
