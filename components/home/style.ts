@@ -3,6 +3,7 @@ import { Colors, Text } from "@/assets/ts/var";
 
 export const styles = StyleSheet.create({
     body: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'column',
         backgroundColor: Colors.background,
@@ -58,10 +59,17 @@ export const styles = StyleSheet.create({
         fontFamily: 'Serial',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 180,
+        height: 120,
+        color: Colors.textContrast,
+        fontSize: 35,
+        textAlign: 'center',
+    },
+
+    accueil1: {
+        fontFamily: 'Serial',
+        height: 50,
         color: Colors.textContrast,
         fontSize: 22,
-        paddingHorizontal: 24,
         textAlign: 'center',
     }
 });
