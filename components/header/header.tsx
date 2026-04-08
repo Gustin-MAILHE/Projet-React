@@ -10,7 +10,6 @@ export const Header = () => {
                 style={{ width: 80, height: 80, marginLeft: 32 }}
                 source={require("@/assets/images/logo.png")}
             />
-            <Text style={styles.text}>le logo</Text>
         </View>
     )
 }

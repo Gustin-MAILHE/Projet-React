@@ -11,6 +11,7 @@ export const Home = () => {
         <ScrollView style={styles.body}>
             <Text style={styles.bandeau}>BedMark</Text>
 
+            <Text style={styles.accueil}>Human BedMark !! Vous voulez vous entraîner vos réflexes ou votre mémoire ? Nous avons plusieurs jeux à vous proposer :</Text>
             <View style={styles.listJeux}>
                 <CarteJeu
                     titre="Reaction Time"
