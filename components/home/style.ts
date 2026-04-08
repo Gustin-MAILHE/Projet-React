@@ -67,7 +67,6 @@ export const styles = StyleSheet.create({
 
     accueil1: {
         fontFamily: 'Serial',
-        height: 50,
         color: Colors.textContrast,
         fontSize: 22,
         textAlign: 'center',
