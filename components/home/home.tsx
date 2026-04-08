@@ -16,7 +16,7 @@ export const Home = () => {
 
             <View style={styles.listJeux}>
                 <CarteJeu
-                    titre="Temps de réaction"
+                    titre="Reaction Time"
                     nom={require("@/assets/images/chronometre.png")}
                     onPress={() => router.push("/games/indexReactionTime")}
                 />
