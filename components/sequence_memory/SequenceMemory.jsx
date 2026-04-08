@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-const GRID_SIZE = 9; // 3x3 grid
+const GRID_SIZE = 9;
 
 const SequenceMemoryGame = () => {
   const [sequence, setSequence] = useState([]);
@@ -11,9 +11,8 @@ const SequenceMemoryGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [level, setLevel] = useState(0);
 
-  // Responsive layout calculations
   const { width } = useWindowDimensions();
-  const GAME_MAX_WIDTH = 450; // Cap width for PC monitors
+  const GAME_MAX_WIDTH = 450; 
   const effectiveWidth = Math.min(width, GAME_MAX_WIDTH);
   
   const gridPadding = 40;
@@ -81,7 +80,6 @@ const SequenceMemoryGame = () => {
         {gameOver ? 'Game Over!' : `Level: ${level}`}
       </Text>
 
-      {/* The Game Grid */}
       <View style={[styles.grid, { width: effectiveWidth - gridPadding }]}>
         {Array.from({ length: GRID_SIZE }).map((_, index) => (
           <TouchableOpacity
@@ -98,7 +96,6 @@ const SequenceMemoryGame = () => {
         ))}
       </View>
 
-      {/* The Missing Start Button! */}
       {(gameOver || level === 0) && (
         <TouchableOpacity style={styles.button} onPress={startGame}>
           <Text style={styles.buttonText}>
