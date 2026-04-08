@@ -4,6 +4,8 @@ import { LightCircle } from "@/components/reactionTime/LightCircle";
 import { ResultDisplay } from "@/components/reactionTime/ResultDisplay";
 import { useReactionGame } from "@/hooks/useReactionGame";
 import { styles } from "../../app/styles";
+import {Header} from "@/components/header/header";
+import {Footer} from "@/components/footer/footer";
 
 export default function ReactionScreen() {
     const { gameState, reactionTime, bestScore, scores, startGame, handlePress } =
@@ -11,6 +13,7 @@ export default function ReactionScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <Header/>
             <Text style={styles.title}>Reaction Time</Text>
 
             <LightCircle gameState={gameState} reactionTime={reactionTime} />
@@ -34,6 +37,7 @@ export default function ReactionScreen() {
                     totalScores={scores.length}
                 />
             )}
+            <Footer/>
         </SafeAreaView>
     );
 }
