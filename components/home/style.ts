@@ -69,6 +69,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Serial',
         color: Colors.textContrast,
         fontSize: 22,
+        marginVertical: 20,
         textAlign: 'center',
     }
 });
