@@ -19,6 +19,7 @@ export interface GameStatsConfig
     storageKey: string;
     referenceData: ReferenceData;
     fakePlayers?: FakePlayer[];
+    lowerIsBetter?: boolean;
 }
 
 export interface ScoreEntry

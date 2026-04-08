@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { GameStatsConfig } from "./types";
-import { useScores } from "../../hooks/useScores";
+import { useScores } from "@/hooks/useScores";
 import ScoreGraph from "./scoreGraph";
 import Podium from "./podium";
 import { s } from "./moduleStyle";
@@ -20,6 +20,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
     const [mode, setMode] = useState<"easy" | "hard">(initialMode);
     const [saved, setSaved] = useState(false);
     const { saveScore, getLeaderboard, getMyRank, getMyHistory, loaded } = useScores(config);
+    const lowerIsBetter = config.lowerIsBetter ?? false;
 
     const handleSave = async () => {
         await saveScore(score, initialMode);
@@ -67,6 +68,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
                         myScore={score}
                         mode={mode}
                         referenceData={config.referenceData}
+                        lowerIsBetter={lowerIsBetter}
                     />
 
                     <Podium
@@ -76,6 +78,7 @@ export default function GameStatsModule({ score, mode: initialMode, config, onPl
                         myRank={getMyRank(mode)}
                         myScore={score}
                         mode={mode}
+                        lowerIsBetter={lowerIsBetter}
                     />
                 </>
             )}

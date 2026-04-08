@@ -1,39 +1,55 @@
 // app/reaction.tsx
-import { SafeAreaView, TouchableOpacity, Text } from "react-native";
+import React from "react";
+import { Pressable, Text, View } from "react-native";
 import { LightCircle } from "@/components/reactionTime/LightCircle";
-import { ResultDisplay } from "@/components/reactionTime/ResultDisplay";
 import { useReactionGame } from "@/hooks/useReactionGame";
-import { styles } from "../../app/styles";
+import { styles } from "@/app/styles";
+import GameStatsModule from "../moduleGraphe/gameStatsModule";
+import myReferenceData from "../../assets/reactionTime/referenceScore.json";
+import fakePlayers from "../../assets/reactionTime/fakePlayers.json";
 
 export default function ReactionScreen() {
-    const { gameState, reactionTime, bestScore, scores, startGame, handlePress } =
-        useReactionGame();
+    const { gameState, reactionTime, startGame, handlePress } = useReactionGame();
+    const isFinished = gameState === "done" && reactionTime !== null;
+
+    if (isFinished) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Reaction Time</Text>
+                <GameStatsModule
+                    score={reactionTime}
+                    mode="easy"
+                    config={{
+                        playerId: "playerYourself",
+                        playerName: "Toi",
+                        storageKey: "reaction_scores_player",
+                        referenceData: myReferenceData,
+                        fakePlayers,
+                        lowerIsBetter: true,
+                    }}
+                    onPlayAgain={startGame}
+                />
+            </View>
+        );
+    }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>Reaction Time</Text>
 
             <LightCircle gameState={gameState} reactionTime={reactionTime} />
 
             {gameState === "idle" || gameState === "done" ? (
-                <TouchableOpacity style={styles.button} onPress={startGame}>
+                <Pressable style={styles.button} onPress={startGame}>
                     <Text style={styles.buttonText}>
                         {gameState === "done" ? "↺ Rejouer" : "▶ Démarrer"}
                     </Text>
-                </TouchableOpacity>
+                </Pressable>
             ) : (
-                <TouchableOpacity style={styles.bigButton} onPress={handlePress}>
+                <Pressable style={styles.bigButton} onPress={handlePress}>
                     <Text style={styles.bigButtonText}>RÉAGIR !</Text>
-                </TouchableOpacity>
+                </Pressable>
             )}
-
-            {reactionTime !== null && bestScore !== null && (
-                <ResultDisplay
-                    reactionTime={reactionTime}
-                    bestScore={bestScore}
-                    totalScores={scores.length}
-                />
-            )}
-        </SafeAreaView>
+        </View>
     );
 }

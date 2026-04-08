@@ -1,15 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState, useEffect } from "react";
-import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, PersonalEntry, FakePlayer } from "../components/moduleGraphe/types";
+import { useState, useEffect, useCallback } from "react";
+import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, PersonalEntry, FakePlayer } from "@/components/moduleGraphe/types";
 
 export function useScores(config: GameStatsConfig)
 {
     const [data, setData] = useState<ScoresData>({ players: [] });
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(() => { load(); }, []);
-
-    const load = async () => {
+    const load = useCallback(async () => {
         try
         {
             const raw = await AsyncStorage.getItem(config.storageKey);
@@ -23,11 +21,20 @@ export function useScores(config: GameStatsConfig)
         {
             setLoaded(true);
         }
-    };
+    }, [config.storageKey]);
+
+    useEffect(() => { load(); }, [load]);
 
     const persist = async (updated: ScoresData) => {
         await AsyncStorage.setItem(config.storageKey, JSON.stringify(updated));
         setData(updated);
+    };
+
+    const lowerIsBetter = config.lowerIsBetter ?? false;
+
+    const mergeBest = (currentBest: number, score: number) => {
+        if (currentBest <= 0) return score;
+        return lowerIsBetter ? Math.min(currentBest, score) : Math.max(currentBest, score);
     };
 
     const saveScore = async (score: number, mode: "easy" | "hard") => {
@@ -45,8 +52,8 @@ export function useScores(config: GameStatsConfig)
                 return {
                     ...p,
                     scores: [...p.scores, entry],
-                    bestEasy: mode === "easy" ? Math.max(p.bestEasy, score) : p.bestEasy,
-                    bestHard: mode === "hard" ? Math.max(p.bestHard, score) : p.bestHard,
+                    bestEasy: mode === "easy" ? mergeBest(p.bestEasy, score) : p.bestEasy,
+                    bestHard: mode === "hard" ? mergeBest(p.bestHard, score) : p.bestHard,
                 };
             });
         }
@@ -82,7 +89,7 @@ export function useScores(config: GameStatsConfig)
             }))
             .filter(p => p.best > 0);
 
-        return [...realEntries, ...fakeEntries].sort((a, b) => b.best - a.best);
+        return [...realEntries, ...fakeEntries].sort((a, b) => lowerIsBetter ? a.best - b.best : b.best - a.best);
     };
 
     const getMyRank = (mode: "easy" | "hard") => {
