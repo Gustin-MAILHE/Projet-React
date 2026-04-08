@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     text: Text.all,
 
     bandeau: {
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: 180,
