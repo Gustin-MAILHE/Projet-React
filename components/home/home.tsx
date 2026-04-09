@@ -4,30 +4,39 @@ import { useRouter } from "expo-router";
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./style";
 
-const Home = () => {
+export const Home = () => {
     const router = useRouter();
 
     return (
         <ScrollView style={styles.body}>
             <Text style={styles.bandeau}>BedMark</Text>
 
+            <Text style={styles.accueil}>Bienvenue sur BedMark !</Text>
+            <Text style={styles.accueil1}>
+                Reaction Time, Chimp Test, Color Picker, Memory Game...
+                4 jeux conçus pour challenger ton cerveau
+                et mesurer tes vraies capacités.
+                Prêt à découvrir jusqu'où tu peux aller ?
+            </Text>
+
             <View style={styles.listJeux}>
                 <CarteJeu
-                    titre="Temps de réaction"
+                    titre="Reaction Time"
                     nom={require("@/assets/images/chronometre.png")}
-                    onPress={() => router.push("/reaction")}
+                    onPress={() => router.push("/games/indexReactionTime")}
                 />
                 <CarteJeu
-                    titre="Nombre caché"
-                    nom={require("@/assets/images/chimp.png")} onPress={undefined}                />
+                    titre="Chimp Test"
+                    nom={require("@/assets/images/chimp.png")}
+                    onPress={()=> router.push("/games/indexChimp")} />
                 <CarteJeu
-                    titre="Couleur Différente"
-                    nom={require("@/assets/images/pipette.png")} onPress={undefined}                />
+                    titre="Color Picker"
+                    nom={require("@/assets/images/pipette.png")}
+                    onPress={()=> router.push("/games/indexColors")}  />
                 <CarteJeu
-                    titre="Séquence Mémorisé"
+                    titre="Memory Game"
                     nom={require("@/assets/images/sequence_memory.png")}
-                    onPress={() => router.push("/games/indexSequenceMemo")}                
-                    />
+                    onPress={()=> router.push("/games/indexSequenceMemo")}  />
             </View>
         </ScrollView>
     );
@@ -47,5 +56,3 @@ const CarteJeu = ({ titre, nom, onPress }) => (
         />
     </TouchableOpacity>
 );
-
-export default Home;

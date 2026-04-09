@@ -87,9 +87,10 @@ interface Props
     myScore: number;
     mode: "easy" | "hard";
     referenceData: ReferenceData;
+    lowerIsBetter?: boolean;
 }
 
-export default function ScoreGraph({ myScore, mode, referenceData }: Props)
+export default function ScoreGraph({ myScore, mode, referenceData, lowerIsBetter = false }: Props)
 {
     const { width: windowWidth } = useWindowDimensions();
     const GRAPH_WIDTH = windowWidth - sw(40) * 2;
@@ -103,7 +104,7 @@ export default function ScoreGraph({ myScore, mode, referenceData }: Props)
     } = buildDistribution(scores);
 
     const average = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-    const percentile = Math.round((scores.filter(s => s < myScore).length / scores.length) * 100);
+    const percentile = Math.round(((lowerIsBetter ? scores.filter(s => s > myScore).length : scores.filter(s => s < myScore).length) / scores.length) * 100);
     const maxCount = Math.max(...buckets.map(b => b.count));
 
     const plotW      = GRAPH_WIDTH  - PAD_LEFT - PAD_RIGHT;

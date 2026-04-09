@@ -1,9 +1,9 @@
-// assets/js/var.js
+// assets/js/var.ts
 export const Colors = {
-    primary: '#1B263B',
-    secondary: '#8533CC',
-    accent: '#FF8C61',
-    background: '#eff0f1',
+    primary: '#161636',
+    secondary: '#3b387a',
+    accent: '#9b96e3',
+    background: '#1a1a2e',
     surface: '#FFFFFF',
     text: '#1A1A1B',
     textSecondary: '#5A5A5C',
@@ -14,7 +14,7 @@ export const Colors = {
 
 export const Text = {
     all: {
-        fontFamily: 'System',
+        fontFamily: 'Serial',
         fontSize: 20,
         color: Colors.text,
     },

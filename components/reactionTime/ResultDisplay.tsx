@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { styles } from "@/app/styles";
+import { styles } from "@/components/reactionTime/styles";
 import { THRESHOLDS } from "@/constants/reactionGame";
 
 interface Props {

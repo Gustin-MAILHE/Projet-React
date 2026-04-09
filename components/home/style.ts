@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Text } from "@/assets/js/var";
+import { Colors, Text } from "@/assets/ts/var";
 
 export const styles = StyleSheet.create({
     body: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'column',
         backgroundColor: Colors.background,
@@ -12,6 +13,8 @@ export const styles = StyleSheet.create({
     text: Text.all,
 
     bandeau: {
+        display: 'flex',
+        fontFamily: 'Serial',
         justifyContent: 'center',
         alignItems: 'center',
         height: 180,
@@ -29,8 +32,9 @@ export const styles = StyleSheet.create({
     },
 
     carteJeu: {
-        width: 140,
+        width: 150,
         height: 140,
+        display: 'flex',
         overflow: 'hidden',
         flexDirection: 'column',
         alignItems: 'center',
@@ -49,4 +53,23 @@ export const styles = StyleSheet.create({
         marginTop: 4,
         marginLeft: 4,
     },
+
+    accueil: {
+        display: 'flex',
+        fontFamily: 'Serial',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 120,
+        color: Colors.textContrast,
+        fontSize: 35,
+        textAlign: 'center',
+    },
+
+    accueil1: {
+        fontFamily: 'Serial',
+        color: Colors.textContrast,
+        fontSize: 22,
+        marginVertical: 20,
+        textAlign: 'center',
+    }
 });

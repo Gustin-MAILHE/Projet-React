@@ -12,6 +12,7 @@ interface Props
     myRank: number | null;
     myScore: number;
     mode: "easy" | "hard";
+    lowerIsBetter?: boolean;
 }
 
 type Tab = "global" | "personal";
@@ -26,7 +27,7 @@ function formatDate(iso: string): string
     return `${day}/${month}  ${h}:${m}`;
 }
 
-export default function Podium({ leaderboard, personalHistory, currentPlayerId, myRank, mode}: Props)
+export default function Podium({ leaderboard, personalHistory, currentPlayerId, myRank, mode, lowerIsBetter = false}: Props)
 {
     const [tab, setTab] = useState<Tab>("global");
     const top3 = leaderboard.slice(0, 3);
@@ -34,7 +35,9 @@ export default function Podium({ leaderboard, personalHistory, currentPlayerId, 
     const heights = [sw(100), sw(75), sw(60)];
     const isInTop3 = myRank !== null && myRank <= 3;
 
-    const bestScore = personalHistory.length > 0 ? Math.max(...personalHistory.map(e => e.score)) : null;
+    const bestScore = personalHistory.length > 0
+        ? (lowerIsBetter ? Math.min(...personalHistory.map(e => e.score)) : Math.max(...personalHistory.map(e => e.score)))
+        : null;
     const avgScore = personalHistory.length > 0
         ? Math.round(personalHistory.reduce((sum, e) => sum + e.score, 0) / personalHistory.length)
         : null;

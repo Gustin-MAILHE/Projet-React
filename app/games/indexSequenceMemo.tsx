@@ -1,9 +1,7 @@
-import SequenceMemoryGame from "@/components/sequence_memory/SequenceMemory";
+import SequenceMemory from "../../components/sequence_memory/SequenceMemory";
 
-const indexSequence = () => {
-    return (
-        <SequenceMemoryGame/>
-    )
-}
+const indexSequenceMemo = () => {
+    return ( <SequenceMemory />);
+};
 
-export default indexSequence;
+export default indexSequenceMemo;

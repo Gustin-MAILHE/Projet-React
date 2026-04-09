@@ -1,5 +1,5 @@
 import {inspect} from "node:util";
-import {styles} from './styles'
+import {styles} from "./style";
 
 function GenerateMap(level: number) {
     let matrix = Array(level).fill(0).map(()=>Array(level).fill(0))
