@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, Pressable } from "react-native"
 import { Header } from "@/components/header/header";
 import { Footer } from "@/components/footer/footer";
+import { styles } from "@/components/colorGame/styles";
 import LivesDisplay from "../chimpTest/livesDisplay";
 
 type GameState = 'start' | 'playing' | 'gameOver';
 
 const ColorGame = () => {
+    const [level, setLevel] = useState(1)
     const [difficulty, setDifficulty] = useState(2);
     const [lives, setLives] = useState(3);
     const [gameState, setGameState] = useState<GameState>('start');
@@ -18,7 +20,7 @@ const ColorGame = () => {
     }
 
     const falseButton = () => {
-        if (lives > 0 && difficulty < 9) {
+        if (lives > 0) {
             setLives(lives - 1);
         } else {
             setGameState('gameOver');
@@ -26,20 +28,25 @@ const ColorGame = () => {
     }
 
     const trueButton = () => {
-        if (lives > 0 && difficulty < 9) {
-            setDifficulty(difficulty + 1);
+        if (lives > 0) {
+            if (difficulty < 9) {
+                setDifficulty(difficulty + 1);
+            }
+            setLevel(level + 1);
         } else {
             setGameState('gameOver');
         }
     }
 
     const startGame = () => {
+        setLevel(1);
         setDifficulty(2);
         setLives(3);
         setGameState('playing');
     }
 
     const restartGame = () => {
+        setLevel(1);
         setDifficulty(2);
         setLives(3);
         setGameState('playing');
@@ -61,166 +68,94 @@ const ColorGame = () => {
         let backgroundColor;
         const transparency = String((matrix.length % 10) / 10)
         const falseColor = colors[Math.floor(Math.random() * colors.length)]
-        const trueColor = falseColor.replace(/[\d\.]+\)$/g, transparency.concat(")"))
+        const trueColor = falseColor.replace(/[\d.]+\)$/g, transparency.concat(")"))
         const gridSize = matrix.length;
         const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
         const buttonSize = isMobile ? Math.min(40, (window.innerWidth - 40) / gridSize) : 50;
+        const margin = isMobile ? 0.5 : 1;
+        const containerWidth = (buttonSize + margin * 2) * gridSize;
         
         return (
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: `repeat(${gridSize}, ${buttonSize}px)`,
-                gridTemplateRows: `repeat(${gridSize}, ${buttonSize}px)`,
-                gap: isMobile ? '1px' : '2px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                maxWidth: '100%',
-                overflow: 'auto'
-            }}>
+            <View style={[styles.gridContainer, { width: containerWidth }]}>
                 {matrix.flat().map((value, index) => {
                     if (value === 0) {
                         backgroundColor = falseColor
-                        return <button 
-                            key={index} 
-                            id="false" 
-                            style={{
-                                backgroundColor,
-                                width: `${buttonSize}px`,
-                                height: `${buttonSize}px`,
-                                border: 'none',
-                                borderRadius: isMobile ? 4 : 8,
-                                cursor: 'pointer',
-                                minWidth: isMobile ? '30px' : '40px',
-                                minHeight: isMobile ? '30px' : '40px'
-                            }} 
-                            onClick={falseButton}
+                        return <Pressable
+                            key={index}
+                            style={[
+                                styles.buttonFalse,
+                                {
+                                    backgroundColor,
+                                    width: buttonSize,
+                                    height: buttonSize,
+                                    borderRadius: isMobile ? 4 : 8,
+                                    margin: margin
+                                }
+                            ]} 
+                            onPress={falseButton}
                         >
-                        </button>
+                        </Pressable>
                     } else {
                         backgroundColor = trueColor
-                        return <button 
-                            key={index} 
-                            id="true" 
-                            style={{
-                                backgroundColor,
-                                width: `${buttonSize}px`,
-                                height: `${buttonSize}px`,
-                                border: 'none',
-                                borderRadius: isMobile ? 4 : 8,
-                                cursor: 'pointer',
-                                minWidth: isMobile ? '30px' : '40px',
-                                minHeight: isMobile ? '30px' : '40px'
-                            }} 
-                            onClick={trueButton}
+                        return <Pressable
+                            key={index}
+                            style={[
+                                styles.buttonTrue,
+                                {
+                                    backgroundColor,
+                                    width: buttonSize,
+                                    height: buttonSize,
+                                    borderRadius: isMobile ? 4 : 8,
+                                    margin: margin
+                                }
+                            ]} 
+                            onPress={trueButton}
                         >
-                        </button>
+                        </Pressable>
                     }
                 })}
-            </div>
+            </View>
         )
     }
 
     const StartScreen = () => (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '20px'
-        }}>
-            <h1 style={{
-                color: 'white',
-                fontFamily: 'Serial',
-                fontSize: '2.5rem',
-                marginBottom: '20px',
-                textAlign: 'center'
-            }}>
+        <View style={styles.startScreenContainer}>
+            <Text style={styles.startScreenTitle}>
                 Color Picker
-            </h1>
-            <p style={{
-                color: '#b0b0b0',
-                fontFamily: 'Serial',
-                fontSize: '1.2rem',
-                marginBottom: '40px',
-                maxWidth: '400px',
-                textAlign: 'center'
-            }}>
+            </Text>
+            <Text style={styles.startScreenDescription}>
                 Trouvez l'imposteur dans la grille le plus vite possible,
                 mais plus vous progressez, plus il sera camouflé.
-            </p>
-            <button
-                onClick={startGame}
-                style={{
-                    backgroundColor: '#35724a',
-                    color: 'white',
-                    border: 'none',
-                    padding: '15px 30px',
-                    fontFamily: 'Serial',
-                    fontSize: '1.2rem',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    transition: 'background-color 0.3s'
-                }}>
-                START
-            </button>
-        </div>
+            </Text>
+            <Pressable
+                onPress={startGame}
+                style={styles.startButton}>
+                <Text style={{ color: 'white' }}>
+                    START
+                </Text>
+            </Pressable>
+        </View>
     );
 
     const GameOverScreen = () => (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '20px'
-        }}>
-            <h1 style={{
-                color: 'white',
-                fontFamily: 'Serial',
-                fontSize: '2.5rem',
-                marginBottom: '20px',
-                textAlign: 'center'
-            }}>
+        <View style={styles.gameOverContainer}>
+            <Text style={styles.gameOverTitle}>
                 GAME OVER
-            </h1>
-            <p style={{
-                color: '#b0b0b0',
-                fontFamily: 'Serial',
-                fontSize: '1.2rem',
-                marginBottom: '20px',
-                textAlign: 'center'
-            }}>
-                Score final : Niveau {difficulty-1}
-            </p>
-            <p style={{
-                color: '#ff6b6b',
-                fontFamily: 'Serial',
-                fontSize: '1rem',
-                marginBottom: '40px',
-                textAlign: 'center'
-            }}>
+            </Text>
+            <Text style={styles.gameOverScore}>
+                Score final : Niveau {level}
+            </Text>
+            <Text style={styles.gameOverMessage}>
                 {lives <= 0 ? 'Plus de vies restantes' : 'Niveau maximum atteint !'}
-            </p>
-            <button
-                onClick={restartGame}
-                style={{
-                    backgroundColor: '#35724a',
-                    color: 'white',
-                    border: 'none',
-                    padding: '15px 30px',
-                    fontFamily: 'Serial',
-                    fontSize: '1.2rem',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    transition: 'background-color 0.3s'
-                }}>
-                RESTART ?
-            </button>
-        </div>
+            </Text>
+            <Pressable
+                onPress={restartGame}
+                style={styles.restartButton}>
+                <Text style={{ color: 'white' }}>
+                    RESTART ?
+                </Text>
+            </Pressable>
+        </View>
     );
 
     const renderGameContent = () => {
@@ -233,15 +168,9 @@ const ColorGame = () => {
             default:
                 return (
                     <>
-                        <p style={{
-                            color: '#b0b0b0',
-                            fontFamily: 'Serial',
-                            fontSize: '1.2rem',
-                            marginBottom: '20px',
-                            textAlign: 'center'
-                        }}>
-                            Niveau {difficulty-1}
-                        </p>
+                        <Text style={styles.levelText}>
+                            Niveau {level}
+                        </Text>
                         {ShowMap(GenerateMap(difficulty))}
                         <LivesDisplay lives={lives} max={3}/>
                     </>
@@ -250,53 +179,25 @@ const ColorGame = () => {
     };
 
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-            backgroundColor: '#1a1a2e'
-        }}>
-            <header style={{
-                position: 'relative',
-                zIndex: 1,
-                backgroundColor: 'transparent',
-                padding: '16px',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
+        <View style={styles.container}>
+            <View style={styles.header}>
                 <Header />
-            </header>
+            </View>
 
-            <main style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: typeof window !== 'undefined' && window.innerWidth < 768 ? '10px' : '20px',
-                overflow: 'auto'
-            }}>
+            <View style={[
+                styles.mainContent,
+                {
+                    paddingHorizontal: typeof window !== 'undefined' && window.innerWidth < 768 ? 10 : 20,
+                    paddingVertical: typeof window !== 'undefined' && window.innerWidth < 768 ? 10 : 20
+                }
+            ]}>
                 {renderGameContent()}
-            </main>
+            </View>
 
-            <footer style={{
-                position: 'relative',
-                zIndex: 1,
-                height: '70px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                borderTopLeftRadius: '15px',
-                borderTopRightRadius: '15px',
-                marginLeft: '5%',
-                marginRight: '5%'
-            }}>
+            <View style={styles.footer}>
                 <Footer />
-            </footer>
-        </div>
+            </View>
+        </View>
     );
 }
 
