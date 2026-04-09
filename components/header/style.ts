@@ -7,12 +7,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: '#0000',
-        position: 'absolute',
-        top: 0,
         zIndex: 1,
-        padding: 16,
-        left: 0,
-        right: 0,
+        padding: 16
     },
     text: {
         ...Text.all,

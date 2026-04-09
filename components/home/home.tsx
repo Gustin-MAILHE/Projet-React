@@ -3,14 +3,15 @@ import React from "react";
 import { useRouter } from "expo-router";
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./style";
+import {Footer} from "@/components/footer/footer";
+import {Header} from "@/components/header/header";
 
 export const Home = () => {
     const router = useRouter();
 
     return (
         <ScrollView style={styles.body}>
-            <Text style={styles.bandeau}>BedMark</Text>
-
+            <Header />
             <Text style={styles.accueil}>Bienvenue sur BedMark !</Text>
             <Text style={styles.accueil1}>
                 Reaction Time, Chimp Test, Color Picker, Memory Game...
@@ -38,6 +39,7 @@ export const Home = () => {
                     nom={require("@/assets/images/sequence_memory.png")}
                     onPress={()=> router.push("/games/indexSequenceMemo")}  />
             </View>
+            <Footer/>
         </ScrollView>
     );
 };

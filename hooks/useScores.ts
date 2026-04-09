@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import { useState, useEffect, useCallback } from "react";
 import { GameStatsConfig, ScoreEntry, Player, ScoresData, LeaderboardEntry, PersonalEntry, FakePlayer } from "@/components/moduleGraphe/types";
 
@@ -10,7 +10,7 @@ export function useScores(config: GameStatsConfig)
     const load = useCallback(async () => {
         try
         {
-            const raw = await AsyncStorage.getItem(config.storageKey);
+            const raw = await SecureStore.getItemAsync(config.storageKey);
             if (raw) setData(JSON.parse(raw));
         }
         catch (e)
@@ -28,7 +28,7 @@ export function useScores(config: GameStatsConfig)
     const persist = async (updated: ScoresData) => {
         try
         {
-            await AsyncStorage.setItem(config.storageKey, JSON.stringify(updated));
+            await SecureStore.setItemAsync(config.storageKey, JSON.stringify(updated));
             setData(updated);
         }
         catch (e)
@@ -98,7 +98,7 @@ export function useScores(config: GameStatsConfig)
 
             const updated = { players: updatedPlayers };
 
-            AsyncStorage.setItem(config.storageKey, JSON.stringify(updated))
+            SecureStore.setItemAsync(config.storageKey, JSON.stringify(updated))
                 .catch(e => console.error("Erreur persist:", e));
 
             return updated;
