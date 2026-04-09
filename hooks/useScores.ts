@@ -26,8 +26,15 @@ export function useScores(config: GameStatsConfig)
     useEffect(() => { load(); }, [load]);
 
     const persist = async (updated: ScoresData) => {
-        await AsyncStorage.setItem(config.storageKey, JSON.stringify(updated));
-        setData(updated);
+        try
+        {
+            await AsyncStorage.setItem(config.storageKey, JSON.stringify(updated));
+            setData(updated);
+        }
+        catch (e)
+        {
+            console.error("Erreur persist:", e);
+        }
     };
 
     const lowerIsBetter = config.lowerIsBetter ?? false;
@@ -38,39 +45,64 @@ export function useScores(config: GameStatsConfig)
     };
 
     const saveScore = async (score: number, mode: "easy" | "hard") => {
-        const entry: ScoreEntry = { mode, score, date: new Date().toISOString() };
-        const existing = data.players.find(p => p.id === config.playerId);
-        let updatedPlayers: Player[];
-
-        if (existing)
+        if (!config.storageKey)
         {
-            updatedPlayers = data.players.map(p => {
-                if (p.id !== config.playerId)
-                {
-                    return p;
-                }
-                return {
-                    ...p,
-                    scores: [...p.scores, entry],
-                    bestEasy: mode === "easy" ? mergeBest(p.bestEasy, score) : p.bestEasy,
-                    bestHard: mode === "hard" ? mergeBest(p.bestHard, score) : p.bestHard,
-                };
-            });
-        }
-        else
-        {
-            updatedPlayers = [...data.players,
-                {
-                    id: config.playerId,
-                    name: config.playerName,
-                    scores: [entry],
-                    bestEasy: mode === "easy" ? score : 0,
-                    bestHard: mode === "hard" ? score : 0,
-                }
-            ];
+            console.error("storageKey manquant");
+            return;
         }
 
-        await persist({ players: updatedPlayers });
+        const entry: ScoreEntry = {
+            mode,
+            score,
+            date: new Date().toISOString()
+        };
+
+        setData(prev => {
+            const existing = prev.players.find(p => p.id === config.playerId);
+
+            let updatedPlayers: Player[];
+
+            if (existing)
+            {
+                updatedPlayers = prev.players.map(p => {
+                    if (p.id !== config.playerId)
+                    {
+                        return p;
+                    }
+
+                    return {
+                        ...p,
+                        scores: [...p.scores, entry],
+                        bestEasy: mode === "easy"
+                            ? mergeBest(p.bestEasy, score)
+                            : p.bestEasy,
+                        bestHard: mode === "hard"
+                            ? mergeBest(p.bestHard, score)
+                            : p.bestHard,
+                    };
+                });
+            }
+            else
+            {
+                updatedPlayers = [
+                    ...prev.players,
+                    {
+                        id: config.playerId,
+                        name: config.playerName,
+                        scores: [entry],
+                        bestEasy: mode === "easy" ? score : 0,
+                        bestHard: mode === "hard" ? score : 0,
+                    }
+                ];
+            }
+
+            const updated = { players: updatedPlayers };
+
+            AsyncStorage.setItem(config.storageKey, JSON.stringify(updated))
+                .catch(e => console.error("Erreur persist:", e));
+
+            return updated;
+        });
     };
 
     const getLeaderboard = (mode: "easy" | "hard"): LeaderboardEntry[] => {
