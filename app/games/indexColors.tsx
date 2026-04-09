@@ -1,7 +1,7 @@
-import Colors from "../../components/colorGame/color";
+import ColorGame from "../../components/colorGame/colorGame";
 
 const indexColors = () => {
-    return ( <Colors />);
+    return <ColorGame />;
 };
 
 export default indexColors;

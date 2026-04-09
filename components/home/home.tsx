@@ -30,7 +30,7 @@ export const Home = () => {
                     nom={require("@/assets/images/chimp.png")}
                     onPress={()=> router.push("/games/indexChimp")} />
                 <CarteJeu
-                    titre="Colors Picker"
+                    titre="Color Picker"
                     nom={require("@/assets/images/pipette.png")}
                     onPress={()=> router.push("/games/indexColors")}  />
                 <CarteJeu
