@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, SafeAreaView, ScrollView } from 'react-native';
 import GameStatsModule from '../moduleGraphe/gameStatsModule';
-import myReferenceData from "../../assets/chimpTest/referenceScores.json";
-import fakePlayers from "../../assets/chimpTest/fakePlayers.json";
+import myReferenceData from "../../assets/sequence/referenceScores.json";
+import fakePlayers from "../../assets/sequence/fakePlayers.json";
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 
