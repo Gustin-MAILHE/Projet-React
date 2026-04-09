@@ -13,7 +13,7 @@ export const Home = () => {
 
             <Text style={styles.accueil}>Bienvenue sur BedMark !</Text>
             <Text style={styles.accueil1}>
-                Reaction Time, Chimp Test, Colors Picker, Memory Game...
+                Reaction Time, Chimp Test, Color Picker, Memory Game...
                 4 jeux conçus pour challenger ton cerveau
                 et mesurer tes vraies capacités.
                 Prêt à découvrir jusqu'où tu peux aller ?
