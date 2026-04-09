@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { Header } from "@/components/header/header";
-import { Footer } from "@/components/footer/footer";
+import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View, SafeAreaView, ScrollView } from 'react-native';
+import GameStatsModule from '../moduleGraphe/gameStatsModule';
+import myReferenceData from "../../assets/chimpTest/referenceScores.json";
+import fakePlayers from "../../assets/chimpTest/fakePlayers.json";
+import { Footer } from '../footer/footer';
+import { Header } from '../header/header';
 
 const GRID_SIZE = 9;
 
@@ -77,46 +80,79 @@ const SequenceMemoryGame = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
       <Header/>
-      <Text style={styles.headerText}>
-        {gameOver ? 'Game Over!' : `Level: ${level}`}
-      </Text>
-
-      <View style={[styles.grid, { width: effectiveWidth - gridPadding }]}>
-        {Array.from({ length: GRID_SIZE }).map((_, index) => (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={1}
-            onPress={() => handlePress(index)}
-            style={[
-              styles.square,
-              { width: squareSize, height: squareSize, margin: squareMargin },
-              activeSquare === index && styles.squareActive,
-              gameOver && activeSquare === index && styles.squareError
-            ]}
-          />
-        ))}
-      </View>
-
-      {(gameOver || level === 0) && (
-        <TouchableOpacity style={styles.button} onPress={startGame}>
-          <Text style={styles.buttonText}>
-            {gameOver ? 'Try Again' : 'Start Game'}
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <View style={styles.container}>
+          <Text style={styles.headerText}>
+            {gameOver ? 'Game Over!' : `Level: ${level}`}
           </Text>
-        </TouchableOpacity>
-      )}
+
+          <View style={[styles.grid, { width: effectiveWidth - gridPadding }]}>
+            {Array.from({ length: GRID_SIZE }).map((_, index) => (
+              <TouchableOpacity
+                key={index}
+                activeOpacity={1}
+                onPress={() => handlePress(index)}
+                style={[
+                  styles.square,
+                  { width: squareSize, height: squareSize, margin: squareMargin },
+                  activeSquare === index && styles.squareActive,
+                  gameOver && activeSquare === index && styles.squareError
+                ]}
+              />
+            ))}
+          </View>
+
+          {(gameOver || level === 0) && (
+            <TouchableOpacity style={styles.button} onPress={startGame}>
+              <Text style={styles.buttonText}>
+                {gameOver ? 'Try Again' : 'Start Game'}
+              </Text>
+            </TouchableOpacity>
+          )}
+          <GameStatsModule
+            score={level}
+            mode={"easy"}
+            config={{
+                playerId: "playerYourself",
+                playerName: "Toi",
+                storageKey: "sequence_scores_player",
+                referenceData: myReferenceData,
+                fakePlayers: fakePlayers,
+            }}
+            onPlayAgain={startGame}
+            onSaveScore={()=> {}}
+          />
+
+          
+        </View>
+      </ScrollView>
       <Footer/>
-    </View>
+    </SafeAreaView>
+    
+    
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    backgroundColor: '#121212',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
     justifyContent: 'center',
+  },
+  container: {
     alignItems: 'center',
-    backgroundColor: '#1a1a2e',
+    paddingVertical: 40,
   },
   headerText: {
     fontSize: 32,
@@ -151,6 +187,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  extraContentPlaceholder: {
+    marginTop: 50,
+    width: '100%',
+    padding: 20,
+  },
+  secondaryText: {
+    color: '#888',
+    textAlign: 'center',
+  }
 });
 
 export default SequenceMemoryGame;
+
